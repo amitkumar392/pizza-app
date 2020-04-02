@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+
+<head>
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../../node_modules/@polymer/test-fixture/test-fixture.js"></script>
+    <script src="../../node_modules/mocha/mocha.js"></script>
+    <script src="../../node_modules/chai/chai.js"></script>
+    <script src="../../node_modules/sinon/pkg/sinon.js"></script>
+    <script src="../../node_modules/wct-mocha/wct-mocha.js"></script>
+    <script type="module" src="../../src/pizza-app/dashboard-page.js"></script>
+</head>
+
+<body>
+    <test-fixture id="dashboardFixture">
+        <template>
+            <dashboard-page></dashboard-page>
+        </template>
+    </test-fixture>
+    <script>
+
+
+        describe('When the component is rendered', function () {
+            beforeEach(function () {
+                element = fixture('dashboardFixture');
+                elementShadowRoot = element.shadowRoot;
+            });
+            it('should render the component', function () {
+                expect(element).to.be.exist;
+                expect(elementShadowRoot).to.be.exist;
+            });
+            // it('should render the email input field', () => {
+            //     let emailId = elementShadowRoot.querySelector('#emailId')
+            //     expect(emailId).to.be.exist;
+            // });
+
+            // it('should render the password input field', () => {
+            //     let password = elementShadowRoot.querySelector('#password')
+            //     expect(password).to.be.exist;
+            // });
+            it('should render the my order button', () => {
+                let orderBtn = elementShadowRoot.querySelector('#myOrder');
+                expect(orderBtn).to.be.exist;
+                expect(orderBtn.innerHTML).to.be.equal('My Order');
+            });
+            it('should render the cart button', () => {
+                let cartBtn = elementShadowRoot.querySelector('#cart');
+                expect(cartBtn).to.be.exist;
+                expect(cartBtn.innerHTML).to.be.equal('Cart');
+            });
+            it('should render the logout button', () => {
+                let logoutBtn = elementShadowRoot.querySelector('#login');
+                expect(logoutBtn).to.be.exist;
+                expect(logoutBtn.innerHTML).to.be.equal('Logout');
+            });
+
+            // describe('AND when login button is clicked', () => {
+            //     let sinonSpy;
+            //     let loginBtn;
+            //     beforeEach(() => {
+            //         loginBtn = elementShadowRoot.querySelector('#login');
+            //         sinonSpy = sinon.spy();
+            //         loginBtn.addEventListener('click', sinonSpy);
+            //     });
+            //     it('should call handleLogin() method once', function (done) {
+            //         flush(function () {
+            //             loginBtn.click();
+            //             expect(sinonSpy.callCount).to.be.equal(1)
+            //             done();
+            //         })
+            //     })
+
+            //     it('should validate the form and call the function makeAjaxCall', (done) => {
+            //         element.$.emailId.value = 'amit@gmail.com';
+            //         element.$.password.value = '123'
+            //         loginBtn.click();
+            //         done();
+
+
+            //     })
+            // })
+        })
+
+    </script>
+</body>
+
+</html>
