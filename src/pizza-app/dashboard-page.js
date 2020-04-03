@@ -11,7 +11,6 @@ import '@polymer/paper-tabs/paper-tabs.js';
 import '@polymer/paper-tabs/paper-tab.js';
 import '@vaadin/vaadin-date-picker/vaadin-date-picker.js';
 import '@polymer/iron-pages/iron-pages.js';
-
 import '@polymer/iron-ajax/iron-ajax.js';
 import '@polymer/app-route/app-location.js';
 import '@polymer/paper-spinner/paper-spinner.js';
@@ -20,29 +19,31 @@ import '@polymer/paper-dialog/paper-dialog.js';
 import '@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js';
 import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/iron-icon/iron-icon.js';
-
 import '@polymer/paper-card/paper-card.js';
 import '@polymer/paper-slider/paper-slider.js';
-
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
 
 
 
+
+
 /**
+* Define an element class
 * @customElement
 * @polymer
 */
 class DashboardPage extends PolymerElement {
-    static get template() {
-        return html`
+  /**
+    * Define the element's template
+    */
+  static get template() {
+    return html`
 <style>
     :host {
         display: block;
     }
-  
-    
-    #dialog{
+   #dialog{
         width:50%;
         border-radius:20px;
       }
@@ -86,7 +87,7 @@ href="[[rootPath]]login-page">Logout</a></paper-button>
 
 <paper-dialog id="dialog">
 <paper-dialog-scrollable>
-<iron-icon icon="icons:clear" on-click="_handleCross"></iron-icon>
+<iron-icon icon="icons:clear" on-click="_handleCross" id='cross'></iron-icon>
 
 
 <h1> Cart </h1>
@@ -142,141 +143,154 @@ Pizza Name: {{selectedItem.pizzaName}}<br>
       </div>
     </paper-card>  
     </template>   
-    </form>
-    
-       
-    </div>
+    </form>  
+  </div>
    
 </iron-pages>
 </iron-form>
 
         <iron-ajax id="ajax" on-response="_handleResponse" on-error="_handleError" handle-as="json" content-type='application/json'>
         </iron-ajax>
-        <paper-spinner id="spin" active={{waiting}}></paper-spinner>
         <paper-toast text={{message}}  class="fit-bottom" id="toast"></paper-toast>
 
         
 
         `;
+  }
+  /**
+* Define public API properties
+*/
+  static get properties() {
+    return {
+      selected: {
+        type: Object
+      },
+      action: {
+        type: String,
+        value: 'List'
+      },
+      cartProducts: {
+        type: Array,
+        value: []
+      },
+      selectedItem: {
+        type: Object,
+        value: {}
+      },
+      vegPizza: {
+        type: Array,
+        value: [{ "pizzaName": 'onion pizza', "price": '200 INR', "rating": '4.5', "size": '9 inch', "description": 'Veg' },
+        { "pizzaName": 'Tomato pizza', "price": '400 INR', "rating": '3.5', "size": '8 inch', "description": 'Veg' }]
+      },
+      nonVeg: {
+        type: Array,
+        value: [{ "pizzaName": 'PEPPER BARBECUE CHICKEN', "price": '400 INR', "rating": '3.5', "size": '8 inch', "description": 'Non Veg' },
+        { "pizzaName": 'Chicken Golden Delight', "price": '500 INR', "rating": '3.0', "size": '9 inch', "description": 'Non Veg' }]
+      },
+
+    };
+  }
+
+  /**
+   * as soon as page load connected call back will execute
+   */
+  connectedCallback() {
+    super.connectedCallback();
+    this.selected = 0;
+  }
+  /**
+* it will clear session storage
+*/
+  _handleLogout() {
+    sessionStorage.clear();
+  }
+
+  /**
+* it will route to myOrder page
+*/
+  _handleMyorder() {
+    this.set('route.path', './my-order')
+  }
+  /**
+* it will close paper dialog
+*/
+  _handleCross() {
+    this.$.dialog.close();
+  }
+
+  /**
+* it will handle total price based on total quantity
+*/
+  _handleAdd() {
+
+    if (this.userQuantity < 10)
+      this.userQuantity += 1;
+    console.log(this.selectedItem.price);
+    this.b = parseInt(this.selectedItem.price) * this.userQuantity;
+    console.log(this.b);
+  }
+  /**
+* it will handle total price based on total quantity
+*/
+  _handleRemove() {
+    if (this.userQuantity > 0)
+      this.userQuantity -= 1;
+    if (this.b > 0)
+      this.b = this.b - parseInt(this.selectedItem.price);
+  }
+  /**
+* it will set quantity zero and handle data 
+*/
+  _handleQuantity(event) {
+    this.userQuantity = 0;
+    this.$.dialog.open();
+    this.selectedItem = event.model.item;
+  }
+  /**
+* it will push totalprice and total quantity to array
+*/
+  _handleCart(event) {
+    this.selectedItem.quantity = this.userQuantity;
+    this.selectedItem.totalAmount = this.b;
+    this.cartProducts.push(this.selectedItem);
+    console.log(this.cartProducts);
+    sessionStorage.setItem('food', JSON.stringify(this.cartProducts));
+    this.$.dialog.close();
+
+  }
+
+
+  /**
+* it will route to cart page
+*/
+  _handleMycart() {
+    this.set('route.path', './cart-page')
+  }
+
+  /**
+* getting response from server and storing user data and id in session storage
+* @param {*} event 
+*/
+  _handleResponse(event) {
+    switch (this.action) {
+      case 'List':
+        console.log(event.detail.response);
+        this.selected = event.detail.response;
     }
-    static get properties() {
-        return {
-            selected:{
-                type:Object
-            },
-          
-            action: {
-                type: String,
-                value: 'List'
-            },
-            cartProducts:{
-                type:Array,
-                value:[]
-            },
-            selectedItem:{
-                type:Object,
-                value:{}
-            },
-            vegPizza: {
-                type: Array,
-                value: [{ "pizzaName": 'onion pizza', "price": '200 INR', "rating": '4.5', "size": '9 inch', "description": 'Veg' },
-                { "pizzaName": 'Tomato pizza', "price": '400 INR', "rating": '3.5', "size": '8 inch', "description": 'Veg' }]
-            },
-            nonVeg: {
-                type: Array,
-                value: [{ "pizzaName": 'PEPPER BARBECUE CHICKEN', "price": '400 INR', "rating": '3.5', "size": '8 inch', "description": 'Non Veg' },
-                { "pizzaName": 'Chicken Golden Delight', "price": '500 INR', "rating": '3.0', "size": '9 inch', "description": 'Non Veg' }]
-            },
-
-        };
-    }
-    connectedCallback() {
-        super.connectedCallback();
-        this.selected = 0;
-    }
-    _handleLogout(){
-        sessionStorage.clear();
-    }
-    _handleMyorder(){
-        this.set('route.path', './my-order')
-
-    }
-    
-    _handleCross() {
-        this.$.dialog.close();
-
-    }
-    _handleAdd() {
-
-        if (this.userQuantity < 10)
-          this.userQuantity += 1;
-        console.log(this.selectedItem.price);
-        this.b = parseInt(this.selectedItem.price) * this.userQuantity;
-        console.log(this.b);
-      }
-
-      _handleRemove() {
-        if (this.userQuantity > 0)
-          this.userQuantity -= 1;
-          if(this.b>0)
-        this.b = this.b - parseInt(this.selectedItem.price);
-    
-      }
-
-      _handleQuantity(event){
-        this.userQuantity = 0;
-        this.$.dialog.open();
-
-        this.selectedItem = event.model.item;
-
-
-    }
-    _handleCart(event){
-        this.selectedItem.quantity = this.userQuantity;
-        this.selectedItem.totalAmount = this.b;
-        this.cartProducts.push(this.selectedItem);
-        console.log(this.cartProducts);
-        sessionStorage.setItem('food', JSON.stringify(this.cartProducts));
-
-    }
-    _handleMycart(){
-        this.set('route.path', './cart-page')
-    }
-
-    /**
-  * getting response from server and storing user data and id in session storage
-  * @param {*} event 
+  }
+  /**
+  * calling main ajax call method 
+  * @param {String} url 
+  * @param {String} method 
+  * @param {Object} postObj 
   */
-    _handleResponse(event) {
-        switch (this.action) {
-            case 'List':
-                console.log('abc');
-                this.waiting = false;
-                console.log(event.detail.response);
-                this.selected = event.detail.response;
-
-        }
-
-
-    }
-
-    _handleError() {
-
-    }
-
-    /**
-    * calling main ajax call method 
-    * @param {String} url 
-    * @param {String} method 
-    * @param {Object} postObj 
-    */
-    _makeAjax(url, method, postObj) {
-        const ajax = this.$.ajax;
-        ajax.method = method;
-        ajax.url = url;
-        ajax.body = postObj ? JSON.stringify(postObj) : undefined;
-        ajax.generateRequest();
-    }
+  _makeAjax(url, method, postObj) {
+    const ajax = this.$.ajax;
+    ajax.method = method;
+    ajax.url = url;
+    ajax.body = postObj ? JSON.stringify(postObj) : undefined;
+    ajax.generateRequest();
+  }
 }
 
 window.customElements.define('dashboard-page', DashboardPage);

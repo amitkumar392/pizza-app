@@ -17,6 +17,12 @@
             <login-page></login-page>
         </template>
     </test-fixture>
+
+    <test-fixture id="loginAjaxFixture">
+        <template>
+            <iron-ajax url='/responds_to_get_with_500_error_json'></iron-ajax>
+        </template>
+    </test-fixture>
     <script>
 
 
@@ -68,6 +74,45 @@
 
 
                 })
+
+                describe('<iron-ajax>', function () {
+                    var ajax;
+                    var request;
+                    var server;
+                    var responseHeaders = {
+                        json: { 'Content-Type': 'application/json' }
+                    };
+                    beforeEach(() => {
+                        server = sinon.fakeServer.create();
+                        server.respondWith(
+                            'GET',
+                            [200, responseHeaders.json, '{ "userName": "Amit","emailId": "amit@mail.com","phoneNo": 8510923603,"password": "123", "id": 1}']
+                        );
+                        server.respondWith(
+                            'GET',
+                            '/responds_to_get_with_500_error_json',
+                            [500, responseHeaders.json, '{"success":true}']
+                        );
+
+                    });
+                    afterEach(() => {
+                        server.restore();
+                    });
+                    describe('when making simple GET requests for JSON', function () {
+                        beforeEach(() => {
+                            ajax = fixture('loginAjaxFixture');
+                        })
+                        it('has check object in response', function () {
+                            request = ajax.generateRequest();
+                            server.respond();
+                            expect(request.response).to.be.ok;
+                            expect(request.response).to.be.an('object');
+                            expect(request.response.success).to.be.equal(true);
+                        });
+                    });
+                    
+                });
+                
             })
         })
 

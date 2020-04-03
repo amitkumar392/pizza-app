@@ -77,8 +77,8 @@ class MyOrder extends PolymerElement {
       </style>
       <app-location route={{route}}></app-location>
       <div id="buttons">
-      <paper-button raised class="custom indigo" on-click="_handleDashboard">Home</paper-button>
-      <paper-button raised class="custom indigo" on-click="_handleLogout"><a name="login-page" href="[[rootPath]]login-page">Logout</a></paper-button>
+      <paper-button raised class="custom indigo" id='home' on-click="_handleDashboard">Home</paper-button>
+      <paper-button raised class="custom indigo" id="logout" on-click="_handleLogout"><a name="login-page" href="[[rootPath]]login-page">Logout</a></paper-button>
     </div>
 
     <h2> My Order List </h2>
@@ -105,6 +105,9 @@ class MyOrder extends PolymerElement {
       <iron-ajax id="ajax" on-response="_handleResponse" handle-as="json" content-type='application/json'></iron-ajax>
     `;
   }
+  /**
+* Define public API properties
+*/
   static get properties() {
     return {
       action: {
@@ -117,51 +120,40 @@ class MyOrder extends PolymerElement {
       }
     };
   }
+
+  
+  /**
+   * as soon as page ready to load this method will execute
+   */
   ready() {
     super.ready();
     this.email = sessionStorage.getItem('emailId');
-}
+  }
 
 
+  /**
+   * as soon as page load connected call back will execute
+   */
   connectedCallback() {
     super.connectedCallback();
-     this._makeAjax(`http://localhost:3000/orders?emailId=${this.email}`,"get",null);
-
-   
-
+    this._makeAjax(`http://localhost:3000/orders?emailId=${this.email}`, "get", null);
   }
   
-  _handleDashboard()
-  {
+  /**
+   * it will route to login page.
+   * it will clear seesion storage.
+   */
+  _handleLogout(){
+    sessionStorage.clear();
+    this.set('route.path', './login-page');
+  }
+
+  /**
+   * it will route to dashboard page
+   */
+  _handleDashboard() {
     this.set('route.path', './dashboard-page');
   }
-//   _handleCross() {
-
-//     this.$.dialog1.close();
-//     this.set('route.path', './dashboard-page');
-
-// }
-
-
-  // /**
-  //  * fetching the user data from database and validating the phone number and password
-  //  */
-  // handleLogin() {
-  //   if (this.$.loginForm.validate()) {
-  //     let customerId = this.$.customerId.value;
-  //     let password = this.$.password.value;
-  //     let obj = { customerId, password }
-  //     console.log(obj);
-  //     this._makeAjax(`http://localhost:9095/mortgage/login/login`, "post", obj);
-  //     this.waiting = true;
-  //     console.log(obj);
-  //   }
-  //   else {
-  //     this.message = "Please enter valid Details";
-  //     this.$.toast.open();
-  //   }
-
-  // }
 
   /**
    * calling main ajax call method 
@@ -178,16 +170,6 @@ class MyOrder extends PolymerElement {
   }
 
   /**
-   * handling error if encounter error from backend server
-   */
-//   _handleError(event) {
-//     console.log(event);
-//     this.message = "";
-//     this.$.toast.open();
-//   }
-
-
-  /**
    * getting response from server and storing user data and id in session storage
    * @param {*} event 
    */
@@ -197,15 +179,9 @@ class MyOrder extends PolymerElement {
 
       case 'List':
         console.log(event);
-        this.userData = event.detail.response[0];
+        this.userData = event.detail.response[0].userData;
         this.waiting = false;
         console.log(this.userData);
-
-        
-       
-        
-
-
     }
 
 

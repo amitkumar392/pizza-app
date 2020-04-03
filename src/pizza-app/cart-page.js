@@ -12,13 +12,18 @@ import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/paper-spinner/paper-spinner.js';
 
+import './shared/shared-table.js';
 
 
 /**
- * @customElement
- * @polymer
- */
+* Define an element class
+* @customElement
+* @polymer
+*/
 class CartPage extends PolymerElement {
+  /**
+    * Define the element's template
+    */
   static get template() {
     return html`
       <style>
@@ -63,57 +68,25 @@ class CartPage extends PolymerElement {
             margin-left:50%;
             top:50%;
         }
-
-    
       </style>
       <app-location route={{route}}></app-location>
       <h2> My Cart </h2>
       <div id="buttons">
-      <paper-button raised class="custom indigo" on-click="_handleDashboard">Home</paper-button>
-      <paper-button raised class="custom indigo" on-click="_handleLogout"><a name="login-page" href="[[rootPath]]login-page">Logout</a></paper-button>
+      <paper-button raised class="custom indigo" id='home' on-click="_handleDashboard">Home</paper-button>
+      <paper-button raised class="custom indigo" id='logout' on-click="_handleLogout"><a name="login-page" href="[[rootPath]]login-page">Logout</a></paper-button>
     </div>
 
-    <table>
-  <tr>
-        <th>pizza Name</th>
-        <th>Unit Price</th>
-        <th>Rating</th>
-        <th>Size</th>
-        <th>Description</th>
-        <th>Quantity</th>
-        <th>Total Amount</th>
-  </tr>
+    <shared-table headings={{headings}} rows={{userData}}></shared-table>
 
-    <template is="dom-repeat" items={{userData}} as="historyData">
-        <tr>
-            <td>{{historyData.pizzaName}}</td>
-            <td>{{historyData.price}} </td>
-            <td>{{historyData.rating}}</td>
-            <td>{{historyData.size}}  </td>
-            <td>{{historyData.description}}  </td> 
-            <td>{{historyData.quantity}}  </td> 
-            <td>{{historyData.totalAmount}} ₹ </td> 
-              
-        </tr>
-  </template>
-</table>
-
-<paper-button raised class="custom" on-click="_handleBuy">Buy Now</paper-button>
-
-
-
-     
-
-            
-
-          
-
-
+      <paper-button raised class="custom" on-click="_handleBuy">Buy Now</paper-button>
       <paper-toast text={{message}}  class="fit-bottom" id="toast"></paper-toast>
       <paper-spinner id="spin" active={{waiting}}></paper-spinner>
       <iron-ajax id="ajax" on-response="_handleResponse" handle-as="json" content-type='application/json'></iron-ajax>
     `;
   }
+  /**
+* Define public API properties
+*/
   static get properties() {
     return {
       action: {
@@ -123,68 +96,48 @@ class CartPage extends PolymerElement {
       userData: {
         type: Array,
         value: []
-      }
+      },
+      headings:{
+        type: Array,
+        value:['pizza Name','Unit Price','Rating','Size','Description','Quantity','Total Amount']
+      },
     };
   }
-  ready() {
-    super.ready();
-    // this.addEventListener('user-details',(e)=>this._handleResponse(e));
-  }
 
-
+/**
+ * as soon as page load connected call back will execute
+ */
   connectedCallback() {
     super.connectedCallback();
-     this.userData = JSON.parse(sessionStorage.getItem('food'));
-     this.userData.emailId=sessionStorage.getItem('emailId');
-     console.log(this.userData);
-
-   
-
+    this.userData = JSON.parse(sessionStorage.getItem('food'));
+    let emailId = sessionStorage.getItem('emailId');
+    this.postObj = { emailId, userData: this.userData }
+    console.log(this.userData);
   }
-  _handleLogout(){
-      sessionStorage.clear();
+
+    /**
+  * it will clear session storage
+  */
+  _handleLogout() {
+    sessionStorage.clear();
   }
-  _handleBuy(){
-      alert('successfully buy');
-      let postObj=this.userData;
-      console.log(postObj);
+  /**
+   * it will post the data to database
+   * it will route the page to dashboard page
+   */
+  _handleBuy() {
+    alert('successfully buy');
+    console.log(this.postObj);
 
-      this._makeAjax(`http://localhost:3000/orders`,"post",postObj);
-          this.set('route.path', './dashboard-page');
-
-
-  }
-  _handleDashboard()
-  {
+    this._makeAjax(`${BaseUrl}/orders`, "post", this.postObj);
     this.set('route.path', './dashboard-page');
   }
-//   _handleCross() {
-
-//     this.$.dialog1.close();
-//     this.set('route.path', './dashboard-page');
-
-// }
-
-
-  // /**
-  //  * fetching the user data from database and validating the phone number and password
-  //  */
-  // handleLogin() {
-  //   if (this.$.loginForm.validate()) {
-  //     let customerId = this.$.customerId.value;
-  //     let password = this.$.password.value;
-  //     let obj = { customerId, password }
-  //     console.log(obj);
-  //     this._makeAjax(`http://localhost:9095/mortgage/login/login`, "post", obj);
-  //     this.waiting = true;
-  //     console.log(obj);
-  //   }
-  //   else {
-  //     this.message = "Please enter valid Details";
-  //     this.$.toast.open();
-  //   }
-
-  // }
+  /**
+  * it will route the page to dashboard page
+  */
+  _handleDashboard() {
+    this.set('route.path', './dashboard-page');
+  }
 
   /**
    * calling main ajax call method 
@@ -199,42 +152,12 @@ class CartPage extends PolymerElement {
     ajax.body = postObj ? JSON.stringify(postObj) : undefined;
     ajax.generateRequest();
   }
-
-  /**
-   * handling error if encounter error from backend server
-   */
-//   _handleError(event) {
-//     console.log(event);
-//     this.message = "";
-//     this.$.toast.open();
-//   }
-
-
   /**
    * getting response from server and storing user data and id in session storage
    * @param {*} event 
    */
   _handleResponse(event) {
-
-    // switch (this.action) {
-
-    //   case 'List':
-    //     console.log(event);
-    //     this.users = event.detail.response;
-    //     this.waiting = false;
-    //     // console.log(event.detail.response);
-    //     console.log(this.users.statusCode);
-        
-       
-        
-    //     // sessionStorage.setItem('customer', JSON.stringify(this.users));
-    //     // this.customer = JSON.parse(sessionStorage.getItem('customer'));
-    //     // console.log(this.customer.customerId);
-
-
-    // }
-
-
+    console.log(event.detail.response);
   }
 
 

@@ -10,7 +10,8 @@ import '@polymer/iron-form/iron-form.js';
 import '@polymer/paper-toast/paper-toast.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/iron-icons/iron-icons.js';
-import '@polymer/paper-spinner/paper-spinner.js';
+
+import './shared/paper-spin.js';
 
 /**
  * Define an element class
@@ -47,13 +48,7 @@ class RegistrationPage extends PolymerElement {
 
         h2{
           text-align:center;
-        }
-        #spin{
-          position:fixed;
-          margin-left:50%;
-          top:50%;
-      }
-       
+        }     
 
       </style>
 
@@ -66,16 +61,8 @@ class RegistrationPage extends PolymerElement {
 
       <paper-input type="text" label="Enter name" id="name"auto-validate required error-message="Enter Name"><iron-icon slot="suffix" icon="icons:account-circle"></iron-icon>
       </paper-input>
-
-
-
-
-
       <paper-input label="Phone No" id="phoneNo" type="text" name="phoneNo" auto-validate required maxlength="10" allowed-pattern=[0-9] auto-validate><iron-icon slot="suffix" icon="icons:settings-phone"></iron-icon>
       </paper-input>
-
-
-    
       <paper-input type="email" label="Enter email" id="email" auto-validate required error-message="Enter Email"><iron-icon slot="suffix" icon="mail"></iron-icon>
       </paper-input>
 
@@ -87,7 +74,7 @@ class RegistrationPage extends PolymerElement {
       </form>
       <iron-form>
       <paper-toast text={{message}}  class="fit-bottom" id="toast"></paper-toast>
-      <paper-spinner id="spin" active={{waiting}}></paper-spinner>
+      <paper-spinr id="spin" waiting={{waiting}}></paper-spin>
       
       <iron-ajax id="ajax" on-response="_handleResponse" handle-as="json" content-type='application/json'>
       </iron-ajax>
@@ -100,6 +87,9 @@ class RegistrationPage extends PolymerElement {
    */
   static get properties() {
     return {
+      waiting:{
+        type:Boolean
+    }
 
     };
   }
@@ -114,7 +104,7 @@ class RegistrationPage extends PolymerElement {
     let phoneNo = parseInt(this.$.phoneNo.value);
     let postObj = { userName,email,password,phoneNo};
     console.log(postObj);
-    this._makeAjax(`http://localhost:3000/users`,"post",postObj);
+    this._makeAjax(`${BaseUrl}/users`,"post",postObj);
     this.waiting=true;
     console.log('dfd');
   }
@@ -125,10 +115,7 @@ class RegistrationPage extends PolymerElement {
    * @param {*} event 
    */
   _handleResponse(event) {
-    console.log('abc');
     this.waiting=false;
-    console.log(event.detail.response);
-    console.log('xyz');
     this.message = "Registration is successful";
     this.$.toast.open();
     confirm('Registration is successful');

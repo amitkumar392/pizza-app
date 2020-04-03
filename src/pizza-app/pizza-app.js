@@ -66,6 +66,9 @@ class PizzaApp extends PolymerElement {
 </footer>
     `;
   }
+  /**
+* Define public API properties
+*/
   static get properties() {
     return {
       page: {
@@ -102,7 +105,7 @@ class PizzaApp extends PolymerElement {
         break;
 
       case 'dashboard-page':
-        import('./dashoboard-page.js');
+        import('./dashboard-page.js');
         break;
 
       case 'cart-page':

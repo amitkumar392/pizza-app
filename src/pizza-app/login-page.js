@@ -10,7 +10,8 @@ import '../../node_modules/@polymer/iron-form/iron-form.js';
 import '@polymer/paper-toast/paper-toast.js';
 import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/iron-icon/iron-icon.js';
-import '@polymer/paper-spinner/paper-spinner.js';
+
+import './shared/paper-spin.js';
 
 /**
  * Define an element class
@@ -48,13 +49,7 @@ class LoginPage extends PolymerElement {
     
         h2{
             text-align:center;
-        }
-        #spin{
-            position:fixed;
-            margin-left:50%;
-            top:50%;
-        }
-       
+        }     
        
 
       </style>
@@ -72,7 +67,7 @@ class LoginPage extends PolymerElement {
         </form>
       </iron-form>
       <paper-toast text={{message}}  class="fit-bottom" id="toast"></paper-toast>
-      <paper-spinner id="spin" active={{waiting}}></paper-spinner>
+      <paper-spin id="spin" waiting={{waiting}}></paper-spin>
       <iron-ajax id="ajax" on-response="_handleResponse" handle-as="json" content-type='application/json'></iron-ajax>
     `;
     }
@@ -96,24 +91,11 @@ class LoginPage extends PolymerElement {
                 type: Array,
                 value: []
             },
-            login: {
-                type: Boolean,
-                value: false
+            waiting:{
+                type:Boolean
             }
         };
     }
-
-    ready() {
-        super.ready();
-        // this.addEventListener('user-details',(e)=>this._handleResponse(e));
-    }
-
-
-    connectedCallback() {
-        super.connectedCallback();
-
-    }
-
     /**
      * fetching the user data from database and validating the phone number and password
      */
@@ -121,7 +103,7 @@ class LoginPage extends PolymerElement {
         if (this.$.loginForm.validate()) {
             this.email = this.$.emailId.value;
             let password = this.$.password.value;
-            this._makeAjax(`http://localhost:3000/users?email=${this.email}&&password=${password}`, "get", null);
+            this._makeAjax(`${BaseUrl}/users?email=${this.email}&&password=${password}`, "get", null);
             this.waiting = true;
         }
         else {

@@ -17,6 +17,12 @@
             <registration-page></registration-page>
         </template>
     </test-fixture>
+
+    <test-fixture id="registerAjaxFixture">
+        <template>
+            <iron-ajax method="POST" url='/responds_to_post_with_json'></iron-ajax>
+        </template>
+    </test-fixture>
     <script>
 
 
@@ -73,8 +79,7 @@
                 })
                 it('should validate the form and call the function makeAjaxCall', (done) => {
                     element.$.name.value = 'amit';
-                    element.$.email.value = 'amit@gmail.com';
-                
+                    element.$.email.value = 'amit@gmail.com';                
                     element.$.phoneNo.value = '123456789';
                     element.$.password.value = '123';
                     registerBtn.click();
@@ -84,7 +89,40 @@
                 })
             })
 
-        })
+            describe('<iron-ajax>', function () {
+                    var ajax;
+                    var request;
+                    var server;
+                    var responseHeaders = {
+                        json: { 'Content-Type': 'application/json' }
+                    };
+                    beforeEach(()=>{
+                        server = sinon.fakeServer.create();                       
+                        server.respondWith(
+                            'POST',
+                            '/responds_to_post_with_json',
+                            [200, responseHeaders.json, '{"post_success":true}']
+                        );
+                    });
+                    afterEach(() => {
+                        server.restore();
+                    });
+                    describe('when making simple POST requests for JSON', function () {
+                        beforeEach(() => {
+                            ajax = fixture('registerAjaxFixture');
+                        })
+                        it('sends a real post requests for JSON', function (){
+                            request = ajax.generateRequest();
+                            server.respond();
+                            expect(request.response).to.be.ok;
+                            expect(request.response).to.be.an('object');
+                            expect(request.response.post_success).to.be.equal(true);
+                        });
+                    });
+                });
+            });
+
+
 
 
     </script>
