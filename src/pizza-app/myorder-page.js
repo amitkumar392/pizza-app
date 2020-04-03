@@ -77,7 +77,7 @@ class MyOrder extends PolymerElement {
       </style>
       <app-location route={{route}}></app-location>
       <div id="buttons">
-      <paper-button raised class="custom indigo" id='home' on-click="_handleDashboard">Home</paper-button>
+      <paper-button raised  id='home' on-click="_handleDashboard">Home</paper-button>
       <paper-button raised class="custom indigo" id="logout" on-click="_handleLogout"><a name="login-page" href="[[rootPath]]login-page">Logout</a></paper-button>
     </div>
 
@@ -136,7 +136,7 @@ class MyOrder extends PolymerElement {
    */
   connectedCallback() {
     super.connectedCallback();
-    this._makeAjax(`http://localhost:3000/orders?emailId=${this.email}`, "get", null);
+    this._makeAjax(`${BaseUrl}/orders?emailId=${this.email}`, "get", null);
   }
   
   /**
@@ -179,7 +179,9 @@ class MyOrder extends PolymerElement {
 
       case 'List':
         console.log(event);
-        this.userData = event.detail.response[0].userData;
+        this.response=event.detail.response;
+        console.log(this.response);
+        this.userData = this.response.userData;
         this.waiting = false;
         console.log(this.userData);
     }

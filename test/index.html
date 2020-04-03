@@ -18,6 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <title>Tests</title>
   <script>
     window.MyAppGlobals = { rootPath: '/' };
+    window.BaseUrl = 'http://localhost:3000';
   </script>
 
   <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
@@ -31,7 +32,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>
     WCT.loadSuites([
       // Load 'my-view1.html' test suite, using native shadow dom
-  
+
       './pizza-app/registration-page_test.html?dom=shadow',
       './pizza-app/login-page_test.html?dom=shadow',
       './pizza-app/dashboard-page_test.html?dom=shadow',

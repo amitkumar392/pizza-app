@@ -92,8 +92,8 @@ href="[[rootPath]]login-page">Logout</a></paper-button>
 
 <h1> Cart </h1>
 Pizza Name: {{selectedItem.pizzaName}}<br>
- Quantity:<paper-icon-button id="addBtn" on-click="_handleAdd" data-set$={{index}} icon="add"></paper-icon-button>{{userQuantity}}<paper-icon-button id="addBtn" data-set$={{index}} on-click="_handleRemove" icon="remove"></paper-icon-button><br>
- Total Price :{{b}}  </br></br>
+ Quantity:<paper-icon-button id="addBtn" on-click="_handleAdd" data-set$={{index}} icon="add"></paper-icon-button>{{userQuantity}}<paper-icon-button id="removeBtn" data-set$={{index}} on-click="_handleRemove" icon="remove"></paper-icon-button><br>
+ Total Price :{{totalPrice}}  </br></br>
 
  <paper-button type="submit" id="buyNow" on-click="_handleCart">Add to Cart</paper-button>
 
@@ -226,8 +226,8 @@ Pizza Name: {{selectedItem.pizzaName}}<br>
     if (this.userQuantity < 10)
       this.userQuantity += 1;
     console.log(this.selectedItem.price);
-    this.b = parseInt(this.selectedItem.price) * this.userQuantity;
-    console.log(this.b);
+    this.totalPrice = parseInt(this.selectedItem.price) * this.userQuantity;
+    console.log(this.totalPrice);
   }
   /**
 * it will handle total price based on total quantity
@@ -235,8 +235,8 @@ Pizza Name: {{selectedItem.pizzaName}}<br>
   _handleRemove() {
     if (this.userQuantity > 0)
       this.userQuantity -= 1;
-    if (this.b > 0)
-      this.b = this.b - parseInt(this.selectedItem.price);
+    if (this.totalPrice > 0)
+      this.totalPrice = this.totalPrice - parseInt(this.selectedItem.price);
   }
   /**
 * it will set quantity zero and handle data 
@@ -251,7 +251,7 @@ Pizza Name: {{selectedItem.pizzaName}}<br>
 */
   _handleCart(event) {
     this.selectedItem.quantity = this.userQuantity;
-    this.selectedItem.totalAmount = this.b;
+    this.selectedItem.totalAmount = this.totalPrice;
     this.cartProducts.push(this.selectedItem);
     console.log(this.cartProducts);
     sessionStorage.setItem('food', JSON.stringify(this.cartProducts));

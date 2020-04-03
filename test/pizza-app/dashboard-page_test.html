@@ -125,25 +125,7 @@
                     sinonSpy = sinon.spy();
                     removeBtn.addEventListener('click', sinonSpy);
                 });
-                it('should call _handleAdd() method once', function (done) {
-                    flush(function () {
-                        removeBtn.click();
-                        expect(sinonSpy.callCount).to.be.equal(1)
-                        done();
-                    })
-                })
-
-            })
-
-            describe(' when handle Quantity button is clicked', () => {
-                let sinonSpy;
-                let quantityBtn;
-                beforeEach(() => {
-                    quantityBtn = elementShadowRoot.querySelector('#cart');
-                    sinonSpy = sinon.spy();
-                    quantityBtn.addEventListener('click', sinonSpy);
-                });
-                it('should call _handleQuantity() method once', function (done) {
+                it('should call _handleRemove() method once', function (done) {
                     flush(function () {
                         removeBtn.click();
                         expect(sinonSpy.callCount).to.be.equal(1)
