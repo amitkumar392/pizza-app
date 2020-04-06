@@ -12,7 +12,9 @@
   <script src="../../node_modules/mocha/mocha.js"></script>
   <script src="../../node_modules/chai/chai.js"></script>
   <script src="../../node_modules/wct-mocha/wct-mocha.js"></script>
-
+  <script>
+    window.MyAppGlobals = { rootPath: '/' };
+  </script>
   <script type="module" src="../../src/pizza-app/pizza-app.js"></script>
 </head>
 
@@ -21,12 +23,6 @@
   <test-fixture id="BasicTestFixture">
     <template>
       <pizza-app></pizza-app>
-    </template>
-  </test-fixture>
-
-  <test-fixture id="ChangedPropertyTestFixture">
-    <template>
-      <pizza-app prop1="new-prop1"></pizza-app>
     </template>
   </test-fixture>
 
@@ -53,70 +49,28 @@
     // });
     describe('When the component is rendered', function () {
       beforeEach(function () {
-        element = fixture('loginFixture');
+        element = fixture('BasicTestFixture');
         elementShadowRoot = element.shadowRoot;
       });
       it('should render the component', function () {
         expect(element).to.be.exist;
         expect(elementShadowRoot).to.be.exist;
       });
-      it('should render the email input field', () => {      
-        window.BehaviorA = {
-        properties: {
-
-          page: {
-            type: String,
-            observer: '_changePage'
-          },
-          routeData: {
-            type: Object
-          },
-
-        },
-
-        observers: [],
-
-
-        listeners: {
-          change: '_pageChange'
-        },
-
-        ready: function () {
-          this.ready = true;
-        },
-
-        _pageChanged: function (page) {
-          this.page = page || 'login-page';
-        },
-
-        _changePage: function (page) {
-          switch (page) {
-            case 'registration-page':
-              import('./registration-page.js');
-              break;
-
-            case 'login-page':
-              import('./login-page.js');
-              break;
-
-            case 'dashboard-page':
-              import('./dashboard-page.js');
-              break;
-
-            case 'cart-page':
-              import('./cart-page.js');
-              break;
-
-            case 'my-order':
-              import('./myorder-page.js');
-              break;
-
-          }
-
-        },
-
-      };
-    });
+      it('should render login page', () => {
+        element.set('route.path', './login-page');
+      });
+      it('should render dashboard page', () => {
+        element.set('route.path', './dashboard-page');
+      });
+      it('should render cart page', () => {
+        element.set('route.path', './cart-page');
+      });
+      it('should render registration page', () => {
+        element.set('route.path', './registration-page');
+      });
+      it('should render myorder page', () => {
+        element.set('route.path', './my-order');
+      });
 
 
 

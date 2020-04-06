@@ -54,8 +54,8 @@ class LoginPage extends PolymerElement {
       <iron-form id="loginForm">
         <form>
         <h2> User Login</h2>
-<paper-input  label="Email Id" id="emailId" type="email" value={{emailId}} name="email" auto-validate required error-message="enter valid email id"><iron-icon slot="suffix" icon="mail"></iron-icon> </paper-input>
-                <paper-input type="password" label="Password" auto-validate required error-message="Enter the password" id="password"><iron-icon slot="suffix" icon="lock"></iron-icon></paper-input>
+                <paper-input  label="Email Id" id="emailId" type="email" value={{emailId}} name="email" auto-validate required error-message="enter valid email id"><iron-icon slot="suffix" icon="mail"></iron-icon> </paper-input>
+                <paper-input type="password" label="Password" auto-validate required error-message="Enter the password" id="password" value={{password}}><iron-icon slot="suffix" icon="lock"></iron-icon></paper-input>
                 <paper-button type="submit" id="login" class="btn btn-success" on-click="handleLogin">Login</paper-button>
                <sub> New user ?<paper-button id="register" on-click="_handleLogout"><a name="registration-page" href="[[rootPath]]registration-page">registration</a></paper-button></sub>
 
@@ -96,9 +96,9 @@ class LoginPage extends PolymerElement {
      */
     handleLogin() {
         if (this.$.loginForm.validate()) {
-            this.email = this.$.emailId.value;
-            let password = this.$.password.value;
-            this._makeAjax(`${BaseUrl}/users?email=${this.email}&&password=${password}`, "get", null);
+            this.email = this.emailId;
+            let password = this.password;
+            this._makeAjax(`${Window.BaseUrl}/users?email=${this.email}&&password=${password}`, "get", null);
             this.waiting = true;
             this.logout=true;
         }

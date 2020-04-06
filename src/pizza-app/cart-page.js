@@ -33,7 +33,7 @@ class CartPage extends PolymerElement {
           #buttons{
             position:absolute;
             top:50px;
-            left:1100px;
+            left:80em;
           }
          
           paper-button {
@@ -93,6 +93,7 @@ class CartPage extends PolymerElement {
   connectedCallback() {
     super.connectedCallback();
     this.userData = JSON.parse(sessionStorage.getItem('food'));
+    console.log(this.userData);
     let emailId = sessionStorage.getItem('emailId');
     this.postObj = { emailId, userData: this.userData }
     console.log(this.userData);
@@ -112,7 +113,7 @@ class CartPage extends PolymerElement {
     alert('successfully buy');
     console.log(this.postObj);
 
-    this._makeAjax(`${BaseUrl}/orders`, "post", this.postObj);
+    this._makeAjax(`${Window.BaseUrl}/orders`, "post", this.postObj);
     this.set('route.path', './dashboard-page');
   }
   /**

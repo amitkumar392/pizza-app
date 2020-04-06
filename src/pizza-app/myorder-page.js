@@ -28,7 +28,7 @@ class MyOrder extends PolymerElement {
           #buttons{
             position:absolute;
             top:50px;
-            left:1100px;
+            left:80em;
           }
          
           paper-button {
@@ -48,8 +48,11 @@ class MyOrder extends PolymerElement {
         }
         paper-card{
             width:100%;
-            margin:2px;
-            background-color:#34abeb;
+            background-color: whitesmoke;
+            border-radius:5px;
+            margin-bottom:3em;
+            margin-left:1em;
+            padding-left:2em;
         }
         h2{
             text-align:center;
@@ -120,7 +123,7 @@ class MyOrder extends PolymerElement {
    */
   connectedCallback() {
     super.connectedCallback();
-    this._makeAjax(`${BaseUrl}/orders?emailId=${this.email}`, "get", null);
+    this._makeAjax(`${Window.BaseUrl}/orders?emailId=${this.email}`, "get", null);
   }
   
   /**

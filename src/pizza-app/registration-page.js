@@ -59,10 +59,10 @@ class RegistrationPage extends PolymerElement {
 
       <h2>Registration Page </h2>
 
-      <paper-input type="text" label="Enter name" id="name"auto-validate required error-message="Enter Name"><iron-icon slot="suffix" icon="icons:account-circle"></iron-icon>
+      <paper-input type="text" label="Enter name" id="name" auto-validate required error-message="Enter Name" value={{name}}><iron-icon slot="suffix" icon="icons:account-circle"></iron-icon>
       </paper-input>
-      <paper-input label="Phone No" id="phoneNo" type="text" name="phoneNo" auto-validate required maxlength="10" allowed-pattern=[0-9] auto-validate><iron-icon slot="suffix" icon="icons:settings-phone"></iron-icon><div slot="prefix">+91</div> </paper-input>
-      <paper-input type="email" label="Enter email" id="email" auto-validate required error-message="Enter Email"><iron-icon slot="suffix" icon="mail"></iron-icon>
+      <paper-input label="Phone No" id="phoneNo" type="text" name="phoneNo" auto-validate required maxlength="13" allowed-pattern=^[\-\+0-9]{1,15}$ value={{phoneNo}} ><iron-icon slot="suffix" icon="icons:settings-phone"></iron-icon> </paper-input>
+      <paper-input type="email" label="Enter email" id="email" auto-validate required error-message="Enter Email" value={{email}}><iron-icon slot="suffix" icon="mail"></iron-icon>
       </paper-input>
 
       <paper-input label="Password" id="password" type="password" value={{password}} name="password" auto-validate required error-message="enter correct password" ><iron-icon slot="suffix" icon="lock"></iron-icon>
@@ -97,10 +97,10 @@ class RegistrationPage extends PolymerElement {
    * posting user data into database
    */
   _handleRegister() {
-    let userName = this.$.name.value;
-    let email = this.$.email.value;
-    let password = this.$.password.value;
-    let phoneNo = parseInt(this.$.phoneNo.value);
+    let userName = this.name;
+    let email = this.email;
+    let password = this.password;
+    let phoneNo = parseInt(this.phoneNo);
     let postObj = { userName,email,password,phoneNo};
     console.log(postObj);
     this._makeAjax(`${BaseUrl}/users`,"post",postObj);

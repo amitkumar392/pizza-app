@@ -71,8 +71,8 @@
                 })
 
                 it('should validate the form and call the function makeAjaxCall', (done) => {
-                    element.$.emailId.value = 'amit@gmail.com';
-                    element.$.password.value = '123'
+                    element.emailId = 'amit@gmail.com';
+                    element.password = '123'
                     loginBtn.click();
                     done();
 

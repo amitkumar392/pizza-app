@@ -14,6 +14,7 @@ import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/paper-card/paper-card.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
+import './shared/shared-card.js';
 /**
 * Define an element class
 * @customElement
@@ -41,7 +42,7 @@ class DashboardPage extends PolymerElement {
     #buttons{
         position:absolute;
         top:50px;
-        left:1000px;
+        left:73em;
       }
      
       paper-button {
@@ -77,7 +78,7 @@ href="[[rootPath]]login-page">Logout</a></paper-button>
 
 
 <h1> Cart </h1>
-Pizza Name: {{selectedItem.pizzaName}}<br>
+Pizza Name: {{pizzaName}}<br>
  Quantity:<paper-icon-button id="addBtn" on-click="_handleAdd" data-set$={{index}} icon="add"></paper-icon-button>{{userQuantity}}<paper-icon-button id="removeBtn" data-set$={{index}} on-click="_handleRemove" icon="remove"></paper-icon-button><br>
  Total Price :{{totalPrice}}  </br></br>
 
@@ -99,37 +100,13 @@ Pizza Name: {{selectedItem.pizzaName}}<br>
 </paper-tabs>
 
 <iron-pages selected={{selected}}>
-    <div>
-        <form>
-        <template is="dom-repeat" items="{{vegPizza}}">
-        <paper-card>
-          <div id="left">
-            <h3>Pizza Name: {{item.pizzaName}}</h3>
-            <h3>price: {{item.price}}</h3>
-            <h3>rating:{{item.rating}}</h3>
-            <h3>size:{{item.size}}</h3>
-            <h3>description:{{item.description}}</h3>
-            <paper-button id="cart" raised on-click="_handleQuantity">Add</paper-button>
-          </div>
-        </paper-card>  
-        </template>   
-        </form>
+    <div>      
+        <shared-card piz="{{vegPizza}}">            
+        </shared-card>  
     </div>
     <div>
-    <form>
-    <template is="dom-repeat" items="{{nonVeg}}">
-    <paper-card>
-      <div id="left">
-        <h3>Pizza Name: {{item.pizzaName}}</h3>
-        <h3>price: {{item.price}}</h3>
-        <h3>rating:{{item.rating}}</h3>
-        <h3>size:{{item.size}}</h3>
-        <h3>description:{{item.description}}</h3>
-        <paper-button id="cart" raised on-click="_handleQuantity">Add</paper-button>
-      </div>
-    </paper-card>  
-    </template>   
-    </form>  
+    <shared-card piz="{{nonVeg}}">            
+        </shared-card>    
   </div>
    
 </iron-pages>
@@ -182,6 +159,10 @@ Pizza Name: {{selectedItem.pizzaName}}<br>
     super.connectedCallback();
     this.selected = 0;
   }
+  ready() {
+    super.ready();
+    this.addEventListener('handle-quantity',(e)=>this._handleQuantity(e))
+  }
   /**
 * it will clear session storage
 */
@@ -209,8 +190,7 @@ Pizza Name: {{selectedItem.pizzaName}}<br>
 
     if (this.userQuantity < 10)
       this.userQuantity += 1;
-    console.log(this.selectedItem.price);
-    this.totalPrice = parseInt(this.selectedItem.price) * this.userQuantity;
+    this.totalPrice = parseInt(this.price) * this.userQuantity;
     console.log(this.totalPrice);
   }
   /**
@@ -220,16 +200,20 @@ Pizza Name: {{selectedItem.pizzaName}}<br>
     if (this.userQuantity > 0)
       this.userQuantity -= 1;
     if (this.totalPrice > 0)
-      this.totalPrice = this.totalPrice - parseInt(this.selectedItem.price);
+      this.totalPrice = this.totalPrice - parseInt(this.price);
   }
   /**
 * it will set quantity zero and handle data 
 */
   _handleQuantity(event) {
+    console.log(event.detail.data)
     this.userQuantity = 0;
+    this.price=event.detail.data.price;
+    this.selectedItem = event.detail.data;
+    this.pizzaName=event.detail.data.pizzaName
+    console.log(this.price)
     this.$.dialog.open();
-    this.selectedItem = event.model.item;
-  }
+    }
   /**
 * it will push totalprice and total quantity to array
 */

@@ -13,6 +13,47 @@
       "password": "123",
       "phoneNo": 1234567890,
       "id": 2
+    },
+    {
+      "userName": "shubham",
+      "email": "shubham@gmail.com",
+      "phoneNo": 123456789,
+      "id": 3
+    },
+    {
+      "userName": "shubham",
+      "email": "shubh@gmail.com",
+      "password": "12345",
+      "phoneNo": 123456789,
+      "id": 4
+    },
+    {
+      "userName": "",
+      "email": "",
+      "password": "",
+      "phoneNo": null,
+      "id": 5
+    },
+    {
+      "userName": "amit",
+      "email": "amit@gmail.com",
+      "password": "123",
+      "phoneNo": 123456789,
+      "id": 6
+    },
+    {
+      "userName": "",
+      "email": "",
+      "password": "",
+      "phoneNo": null,
+      "id": 7
+    },
+    {
+      "userName": "amit",
+      "email": "amit@gmail.com",
+      "password": "123",
+      "phoneNo": 123456789,
+      "id": 8
     }
   ],
   "orders": [
@@ -102,6 +143,21 @@
         }
       ],
       "id": 4
+    },
+    {
+      "emailId": "amit@gmail.com",
+      "userData": [
+        {
+          "pizzaName": "Tomato pizza",
+          "price": "400 INR",
+          "rating": "3.5",
+          "size": "8 inch",
+          "description": "Veg",
+          "quantity": 3,
+          "totalAmount": 1200
+        }
+      ],
+      "id": 5
     }
   ]
 }
