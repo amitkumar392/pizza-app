@@ -1,8 +1,107 @@
 {
   "users": [
-    
+    {
+      "userName": "amit",
+      "email": "amit@gmail.com",
+      "password": "123",
+      "phoneNo": 123456789,
+      "id": 1
+    },
+    {
+      "userName": "sparsh",
+      "email": "sparsh@gmail.com",
+      "password": "123",
+      "phoneNo": 1234567890,
+      "id": 2
+    }
   ],
   "orders": [
-   
+    {
+      "emailId": "amit@gmail.com",
+      "userData": [
+        {
+          "pizzaName": "onion pizza",
+          "price": "200 INR",
+          "rating": "4.5",
+          "size": "9 inch",
+          "description": "Veg",
+          "quantity": 3,
+          "totalAmount": 600
+        },
+        {
+          "pizzaName": "PEPPER BARBECUE CHICKEN",
+          "price": "400 INR",
+          "rating": "3.5",
+          "size": "8 inch",
+          "description": "Non Veg",
+          "quantity": 2,
+          "totalAmount": 800
+        }
+      ],
+      "id": 1
+    },
+    {
+      "emailId": "amit@gmail.com",
+      "userData": [
+        {
+          "pizzaName": "Tomato pizza",
+          "price": "400 INR",
+          "rating": "3.5",
+          "size": "8 inch",
+          "description": "Veg",
+          "quantity": 4,
+          "totalAmount": 1600
+        },
+        {
+          "pizzaName": "Chicken Golden Delight",
+          "price": "500 INR",
+          "rating": "3.0",
+          "size": "9 inch",
+          "description": "Non Veg",
+          "quantity": 5,
+          "totalAmount": 2500
+        }
+      ],
+      "id": 2
+    },
+    {
+      "emailId": "amit@gmail.com",
+      "userData": [
+        {
+          "pizzaName": "onion pizza",
+          "price": "200 INR",
+          "rating": "4.5",
+          "size": "9 inch",
+          "description": "Veg",
+          "quantity": 7,
+          "totalAmount": 1400
+        }
+      ],
+      "id": 3
+    },
+    {
+      "emailId": "sparsh@gmail.com",
+      "userData": [
+        {
+          "pizzaName": "onion pizza",
+          "price": "200 INR",
+          "rating": "4.5",
+          "size": "9 inch",
+          "description": "Veg",
+          "quantity": 2,
+          "totalAmount": 400
+        },
+        {
+          "pizzaName": "Chicken Golden Delight",
+          "price": "500 INR",
+          "rating": "3.0",
+          "size": "9 inch",
+          "description": "Non Veg",
+          "quantity": 2,
+          "totalAmount": 1000
+        }
+      ],
+      "id": 4
+    }
   ]
 }

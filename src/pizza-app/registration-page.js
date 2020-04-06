@@ -61,8 +61,7 @@ class RegistrationPage extends PolymerElement {
 
       <paper-input type="text" label="Enter name" id="name"auto-validate required error-message="Enter Name"><iron-icon slot="suffix" icon="icons:account-circle"></iron-icon>
       </paper-input>
-      <paper-input label="Phone No" id="phoneNo" type="text" name="phoneNo" auto-validate required maxlength="10" allowed-pattern=[0-9] auto-validate><iron-icon slot="suffix" icon="icons:settings-phone"></iron-icon>
-      </paper-input>
+      <paper-input label="Phone No" id="phoneNo" type="text" name="phoneNo" auto-validate required maxlength="10" allowed-pattern=[0-9] auto-validate><iron-icon slot="suffix" icon="icons:settings-phone"></iron-icon><div slot="prefix">+91</div> </paper-input>
       <paper-input type="email" label="Enter email" id="email" auto-validate required error-message="Enter Email"><iron-icon slot="suffix" icon="mail"></iron-icon>
       </paper-input>
 

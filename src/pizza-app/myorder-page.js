@@ -1,12 +1,11 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
-import '../../node_modules/@polymer/paper-button/paper-button.js';
-import '../../node_modules/@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
-import '../../node_modules/@polymer/paper-listbox/paper-listbox.js';
-import '../../node_modules/@polymer/paper-item/paper-item.js';
-import '../../node_modules/@polymer/paper-input/paper-input.js';
-import '../../node_modules/@polymer/app-route/app-location.js';
-import '../../node_modules/@polymer/iron-ajax/iron-ajax.js';
-import '../../node_modules/@polymer/iron-form/iron-form.js';
+import '@polymer/paper-button/paper-button.js';
+
+import '@polymer/paper-item/paper-item.js';
+import '@polymer/paper-input/paper-input.js';
+import '@polymer/app-route/app-location.js';
+import '@polymer/iron-ajax/iron-ajax.js';
+import '@polymer/iron-form/iron-form.js';
 import '@polymer/paper-toast/paper-toast.js';
 import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/iron-icon/iron-icon.js';
@@ -25,24 +24,7 @@ class MyOrder extends PolymerElement {
       <style>
         :host {
           display: block;
-        }            
-        table, td, th {  
-            border: 1px solid rgb(0, 0, 0);
-            text-align: left;
-            border-style: dashed;
-          }
-          
-          table {
-            border-collapse: collapse;
-            margin-top:20px;
-            margin-bottom:20px;
-            width: 100%;
-          }
-          
-          th, td {
-            padding: 15px;
-          }
-         
+        }                   
           #buttons{
             position:absolute;
             top:50px;
@@ -85,18 +67,20 @@ class MyOrder extends PolymerElement {
 
 
     <template is="dom-repeat" items="{{userData}}">
+    <template is="dom-repeat" items="{{item.userData}}" as="data">
     <paper-card>
       <div id="left">
-        <h3>Pizza Name: {{item.pizzaName}}</h3>
-        <h3>price: {{item.price}}</h3>
-        <h3>rating:{{item.rating}}</h3>
-        <h3>size:{{item.size}}</h3>
-        <h3>description:{{item.description}}</h3>
-        <h3>Total Quantity:{{item.quantity}}</h3>
-        <h3>Total Amount:{{item.totalAmount}} INR</h3>
+        <h3>Pizza Name: {{data.pizzaName}}</h3>
+        <h3>price: {{data.price}}</h3>
+        <h3>rating:{{data.rating}}</h3>
+        <h3>size:{{data.size}}</h3>
+        <h3>description:{{data.description}}</h3>
+        <h3>Total Quantity:{{data.quantity}}</h3>
+        <h3>Total Amount:{{data.totalAmount}} INR</h3>
 
       </div>
     </paper-card>  
+    </template>   
     </template>   
    
  
@@ -181,9 +165,9 @@ class MyOrder extends PolymerElement {
         console.log(event);
         this.response=event.detail.response;
         console.log(this.response);
-        this.userData = this.response.userData;
+        this.userData = this.response;
         this.waiting = false;
-        console.log(this.userData);
+        // console.log(this.userData);
     }
 
 

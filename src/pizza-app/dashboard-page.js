@@ -1,17 +1,9 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import '@polymer/iron-form/iron-form.js';
-import '@polymer/paper-input/paper-input.js';
 import '@polymer/paper-button/paper-button.js';
-import '@polymer/paper-radio-button/paper-radio-button.js';
-import '@polymer/paper-radio-group/paper-radio-group.js';
-import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
-import '@polymer/paper-listbox/paper-listbox.js';
-import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-tabs/paper-tabs.js';
 import '@polymer/paper-tabs/paper-tab.js';
-import '@vaadin/vaadin-date-picker/vaadin-date-picker.js';
 import '@polymer/iron-pages/iron-pages.js';
-import '@polymer/iron-ajax/iron-ajax.js';
 import '@polymer/app-route/app-location.js';
 import '@polymer/paper-spinner/paper-spinner.js';
 import '@polymer/paper-toast/paper-toast.js';
@@ -20,14 +12,8 @@ import '@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js';
 import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/paper-card/paper-card.js';
-import '@polymer/paper-slider/paper-slider.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
-
-
-
-
-
 /**
 * Define an element class
 * @customElement
@@ -149,8 +135,6 @@ Pizza Name: {{selectedItem.pizzaName}}<br>
 </iron-pages>
 </iron-form>
 
-        <iron-ajax id="ajax" on-response="_handleResponse" on-error="_handleError" handle-as="json" content-type='application/json'>
-        </iron-ajax>
         <paper-toast text={{message}}  class="fit-bottom" id="toast"></paper-toast>
 
         

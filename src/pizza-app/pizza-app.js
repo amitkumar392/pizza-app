@@ -16,8 +16,8 @@ class PizzaApp extends PolymerElement {
         :host {
           display: block;
           position: relative;
-    min-height: 100vh;
-    overflow: hidden;
+          min-height: 100vh;
+          overflow: hidden;
         }
         header {
           background-color: #34abeb;

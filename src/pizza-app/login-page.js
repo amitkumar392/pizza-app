@@ -1,12 +1,9 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
-import '../../node_modules/@polymer/paper-button/paper-button.js';
-import '../../node_modules/@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
-import '../../node_modules/@polymer/paper-listbox/paper-listbox.js';
-import '../../node_modules/@polymer/paper-item/paper-item.js';
-import '../../node_modules/@polymer/paper-input/paper-input.js';
-import '../../node_modules/@polymer/app-route/app-location.js';
-import '../../node_modules/@polymer/iron-ajax/iron-ajax.js';
-import '../../node_modules/@polymer/iron-form/iron-form.js';
+import '@polymer/paper-button/paper-button.js';
+import '@polymer/paper-input/paper-input.js';
+import '@polymer/app-route/app-location.js';
+import '@polymer/iron-ajax/iron-ajax.js';
+import '@polymer/iron-form/iron-form.js';
 import '@polymer/paper-toast/paper-toast.js';
 import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/iron-icon/iron-icon.js';
@@ -44,9 +41,7 @@ class LoginPage extends PolymerElement {
             margin-top:100px;
             border-radius:20px;
             background:light-pink;
-
         }
-    
         h2{
             text-align:center;
         }     
@@ -105,6 +100,7 @@ class LoginPage extends PolymerElement {
             let password = this.$.password.value;
             this._makeAjax(`${BaseUrl}/users?email=${this.email}&&password=${password}`, "get", null);
             this.waiting = true;
+            this.logout=true;
         }
         else {
             this.message = "Please enter valid Details";

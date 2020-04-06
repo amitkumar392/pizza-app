@@ -114,6 +114,18 @@
                             expect(request.response.success).to.be.equal(true);
                         });
                     });
+                    describe('when a request fails', function () {
+                    it('we give an error with details', function () {
+                        ajax.url = '/responds_to_get_with_502_error_json';
+                        ajax.handleAs = 'json';
+                        var eventFired = false;
+                        ajax.addEventListener('error', function (event) {
+                            expect(event.detail.request).to.be.ok;
+                            expect(event.detail.error).to.be.ok;
+                            eventFired = true;
+                        });
+                    })
+                })
                     
                 });
                 

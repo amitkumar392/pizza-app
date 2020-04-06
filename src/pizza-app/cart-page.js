@@ -1,12 +1,12 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
-import '../../node_modules/@polymer/paper-button/paper-button.js';
-import '../../node_modules/@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
-import '../../node_modules/@polymer/paper-listbox/paper-listbox.js';
-import '../../node_modules/@polymer/paper-item/paper-item.js';
-import '../../node_modules/@polymer/paper-input/paper-input.js';
-import '../../node_modules/@polymer/app-route/app-location.js';
-import '../../node_modules/@polymer/iron-ajax/iron-ajax.js';
-import '../../node_modules/@polymer/iron-form/iron-form.js';
+import '@polymer/paper-button/paper-button.js';
+import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
+import '@polymer/paper-listbox/paper-listbox.js';
+import '@polymer/paper-item/paper-item.js';
+import '@polymer/paper-input/paper-input.js';
+import '@polymer/app-route/app-location.js';
+import '@polymer/iron-ajax/iron-ajax.js';
+import '@polymer/iron-form/iron-form.js';
 import '@polymer/paper-toast/paper-toast.js';
 import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/iron-icon/iron-icon.js';
@@ -29,24 +29,7 @@ class CartPage extends PolymerElement {
       <style>
         :host {
           display: block;
-        }            
-        table, td, th {  
-            border: 1px solid rgb(0, 0, 0);
-            text-align: left;
-            border-style: dashed;
-          }
-          
-          table {
-            border-collapse: collapse;
-            margin-top:20px;
-            margin-bottom:20px;
-            width: 100%;
-          }
-          
-          th, td {
-            padding: 15px;
-          }
-         
+        }                    
           #buttons{
             position:absolute;
             top:50px;
@@ -99,7 +82,7 @@ class CartPage extends PolymerElement {
       },
       headings:{
         type: Array,
-        value:['pizza Name','Unit Price','Rating','Size','Description','Quantity','Total Amount']
+        value:['Pizza Name','Unit Price','Rating','Size','Description','Quantity','Total Amount']
       },
     };
   }

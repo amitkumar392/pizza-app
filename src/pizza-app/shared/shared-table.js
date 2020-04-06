@@ -26,7 +26,7 @@ return html`
         color: white;
         font-weight: bolder;
         text-align: left;
-        background-color: blue;
+        background-color: #34abeb;
     }
 </style>
 <div class="container">
@@ -43,7 +43,7 @@ return html`
             <td>{{item.description}}</td>
             <td>{{item.quantity}}</td>
             
-            <td>{{item.totalAmount}}</td>
+            <td>{{item.totalAmount}} INR</td>
         </tr>
     </template>
 </div>
